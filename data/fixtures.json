@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "team": "מ.כ ירמיהו חולון",
+    "league": "ליגת ילדים א׳ דן",
+    "season": "2026/2027",
+    "team_id": 1896,
+    "season_id": 28,
+    "league_id": 155,
+    "source": "https://www.football.org.il/team-details/team-games?team_id=1896&season_id=28",
+    "updated": "2026-10-12"
+  },
+  "games": [
+    {
+      "r": 1,
+      "d": "16/10/2026",
+      "home": true,
+      "opp": "הפ' באר שבע אדום \"צו פיוס\"",
+      "venue": "מגרש כדורגל חולון (ליד בית העלמין)",
+      "time": "12:45",
+      "logo": "beer-sheva.png",
+      "address": "מגרש כדורגל חולון — ליד בית העלמין, חולון",
+      "maps": "https://maps.app.goo.gl/BxWrf7HNsw1GnrCi8",
+      "waze": "https://www.waze.com/ul?ll=32.003206,34.7576657&navigate=yes&zoom=17"
+    },
+    {
+      "r": 2,
+      "d": "28/10/2026",
+      "home": false,
+      "opp": "מכבי קרית גת",
+      "venue": null,
+      "time": null,
+      "logo": "kiryat-gat.png"
+    },
+    {
+      "r": 3,
+      "d": "31/10/2026",
+      "home": true,
+      "opp": "מכבי השקמה חן דרום \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "hashikma.png"
+    },
+    {
+      "r": 4,
+      "d": "14/11/2026",
+      "home": false,
+      "opp": "הפועל ר'ג צפון",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-ramat-gan.png"
+    },
+    {
+      "r": 5,
+      "d": "28/11/2026",
+      "home": true,
+      "opp": "מכבי יפו קביליו ברוך \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-jaffa.png"
+    },
+    {
+      "r": 6,
+      "d": "05/12/2026",
+      "home": true,
+      "opp": "עירוני מודיעין \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "ironi-modiin.png"
+    },
+    {
+      "r": 7,
+      "d": "19/12/2026",
+      "home": false,
+      "opp": "מכבי רחובות \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-rehovot.png"
+    },
+    {
+      "r": 8,
+      "d": "26/12/2026",
+      "home": true,
+      "opp": "שמשון ת\"א מרכז",
+      "venue": null,
+      "time": null,
+      "logo": "shimshon-ta.png"
+    },
+    {
+      "r": 9,
+      "d": "09/01/2027",
+      "home": false,
+      "opp": "בית\"ר תל אביב חולון 1 \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "otzma-holon.jpg"
+    },
+    {
+      "r": 10,
+      "d": "16/01/2027",
+      "home": true,
+      "opp": "הפועל ראשון לציון מערב",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-rishon.png"
+    },
+    {
+      "r": 11,
+      "d": "23/01/2027",
+      "home": false,
+      "opp": "הפועל קרית אונו דרום",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-kiryat-ono.png"
+    },
+    {
+      "r": 12,
+      "d": "30/01/2027",
+      "home": true,
+      "opp": "מכבי עירוני בת ים דרום \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-bat-yam.jpg"
+    },
+    {
+      "r": 13,
+      "d": "06/02/2027",
+      "home": false,
+      "opp": "מכבי שוהם \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-shoham.png"
+    },
+    {
+      "r": 14,
+      "d": "13/02/2027",
+      "home": true,
+      "opp": "א.ס. נורדיה ירושלים \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "beitar-nordia-jerusalem.png"
+    },
+    {
+      "r": 15,
+      "d": "20/02/2027",
+      "home": false,
+      "opp": "גדנע ת\"א עודד",
+      "venue": null,
+      "time": null,
+      "logo": "gadna-tel-aviv.png"
+    },
+    {
+      "r": 16,
+      "d": "06/03/2027",
+      "home": true,
+      "opp": "הפועל אזור \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-azor.png"
+    },
+    {
+      "r": 17,
+      "d": "13/03/2027",
+      "home": false,
+      "opp": "הכח מכבי עמידר ר\"ג דרום",
+      "venue": null,
+      "time": null,
+      "logo": "hakoah-ramat-gan.png"
+    },
+    {
+      "r": 18,
+      "d": "20/03/2027",
+      "home": false,
+      "opp": "הפ' באר שבע אדום \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "beer-sheva.png"
+    },
+    {
+      "r": 19,
+      "d": "27/03/2027",
+      "home": true,
+      "opp": "מכבי קרית גת",
+      "venue": null,
+      "time": null,
+      "logo": "kiryat-gat.png"
+    },
+    {
+      "r": 20,
+      "d": "03/04/2027",
+      "home": false,
+      "opp": "מכבי השקמה חן דרום \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "hashikma.png"
+    },
+    {
+      "r": 21,
+      "d": "06/04/2027",
+      "home": true,
+      "opp": "הפועל ר'ג צפון",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-ramat-gan.png"
+    },
+    {
+      "r": 22,
+      "d": "10/04/2027",
+      "home": false,
+      "opp": "מכבי יפו קביליו ברוך \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-jaffa.png"
+    },
+    {
+      "r": 23,
+      "d": "17/04/2027",
+      "home": false,
+      "opp": "עירוני מודיעין \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "ironi-modiin.png"
+    },
+    {
+      "r": 24,
+      "d": "24/04/2027",
+      "home": true,
+      "opp": "מכבי רחובות \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-rehovot.png"
+    },
+    {
+      "r": 25,
+      "d": "01/05/2027",
+      "home": false,
+      "opp": "שמשון ת\"א מרכז",
+      "venue": null,
+      "time": null,
+      "logo": "shimshon-ta.png"
+    },
+    {
+      "r": 26,
+      "d": "08/05/2027",
+      "home": true,
+      "opp": "בית\"ר תל אביב חולון 1 \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "otzma-holon.jpg"
+    },
+    {
+      "r": 27,
+      "d": "15/05/2027",
+      "home": false,
+      "opp": "הפועל ראשון לציון מערב",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-rishon.png"
+    },
+    {
+      "r": 28,
+      "d": "18/05/2027",
+      "home": true,
+      "opp": "הפועל קרית אונו דרום",
+      "venue": null,
+      "time": null,
+      "logo": "hapoel-kiryat-ono.png"
+    },
+    {
+      "r": 29,
+      "d": "22/05/2027",
+      "home": false,
+      "opp": "מכבי עירוני בת ים דרום \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-bat-yam.jpg"
+    },
+    {
+      "r": 30,
+      "d": "29/05/2027",
+      "home": true,
+      "opp": "מכבי שוהם \"צו פיוס\"",
+      "venue": null,
+      "time": null,
+      "logo": "maccabi-shoham.png"
+    }
+  ]
+}

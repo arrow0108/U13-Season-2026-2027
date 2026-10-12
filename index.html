@@ -158,6 +158,7 @@
   .c-meta .ln{display:flex;align-items:center;gap:7px;min-width:0}
   .c-meta .ln span{overflow-wrap:anywhere}
   .tbd{color:#a7a1bd}
+  .loaderr{margin:0;padding:16px 18px;background:#fef2f2;border:1px solid #fecaca;border-radius:14px;color:#b91c1c;font-weight:700}
 
   /* upcoming-game extra line */
   .game-extra{
@@ -246,7 +247,7 @@
     <h3>על המועדון</h3>
     <p>מועדון הכדורגל ירמיהו חולון (מועדון כדורגל חולון ירמיהו) הוא מועדון כדורגל מהעיר חולון. קבוצת הילדים א׳ מתמודדת בעונת 2026/2027 בליגת ילדים א׳ מחוז דן.</p>
     <p>המשחק הראשון של העונה יוצא לדרך ב־16/10/2026 בשעה 12:45, במגרש כדורגל חולון (ליד בית העלמין), מול הפועל באר שבע אדום.</p>
-    <p class="sources">מקור הנתונים: אתר ההתאחדות לכדורגל בישראל (football.org.il) · תאריכים, שעות ומגרשים למחזורים 2–30 טרם נקבעו סופית ומתעדכנים בהתאם לפרסומי ההתאחדות.</p>
+    <p class="sources">מקור הנתונים: אתר ההתאחדות לכדורגל בישראל (football.org.il) · עודכן לאחרונה: <span id="updated">—</span>. תאריכים, שעות ומגרשים שטרם נקבעו מתעדכנים בהתאם לפרסומי ההתאחדות.</p>
   </section>
 </div>
 
@@ -255,46 +256,14 @@
 </footer>
 
 <script>
-const FIXTURES = [
-  { r:1,  d:"16/10/2026", home:true,  opp:'הפ\' באר שבע אדום "צו פיוס"',        venue:"מגרש כדורגל חולון (ליד בית העלמין)", address:"מגרש כדורגל חולון — ליד בית העלמין, חולון", maps:"https://maps.app.goo.gl/BxWrf7HNsw1GnrCi8", waze:"https://www.waze.com/ul?ll=32.003206,34.7576657&navigate=yes&zoom=17", time:"12:45", logo:"beer-sheva.png" },
-  { r:2,  d:"28/10/2026", home:false, opp:'מכבי קרית גת',                        venue:null, time:null, logo:"kiryat-gat.png" },
-  { r:3,  d:"31/10/2026", home:true,  opp:'מכבי השקמה חן דרום "צו פיוס"',        venue:null, time:null, logo:"hashikma.png" },
-  { r:4,  d:"14/11/2026", home:false, opp:'הפועל ר\'ג צפון',                     venue:null, time:null, logo:"hapoel-ramat-gan.png" },
-  { r:5,  d:"28/11/2026", home:true,  opp:'מכבי יפו קביליו ברוך "צו פיוס"',      venue:null, time:null, logo:"maccabi-jaffa.png" },
-  { r:6,  d:"05/12/2026", home:true,  opp:'עירוני מודיעין "צו פיוס"',            venue:null, time:null, logo:"ironi-modiin.png" },
-  { r:7,  d:"19/12/2026", home:false, opp:'מכבי רחובות "צו פיוס"',               venue:null, time:null, logo:"maccabi-rehovot.png" },
-  { r:8,  d:"26/12/2026", home:true,  opp:'שמשון ת"א מרכז',                      venue:null, time:null, logo:"shimshon-ta.png" },
-  { r:9,  d:"09/01/2027", home:false, opp:'בית"ר תל אביב חולון 1 "צו פיוס"',     venue:null, time:null, logo:"otzma-holon.jpg" },
-  { r:10, d:"16/01/2027", home:true,  opp:'הפועל ראשון לציון מערב',             venue:null, time:null, logo:"hapoel-rishon.png" },
-  { r:11, d:"23/01/2027", home:false, opp:'הפועל קרית אונו דרום',                venue:null, time:null, logo:"hapoel-kiryat-ono.png" },
-  { r:12, d:"30/01/2027", home:true,  opp:'מכבי עירוני בת ים דרום "צו פיוס"',    venue:null, time:null, logo:"maccabi-bat-yam.jpg" },
-  { r:13, d:"06/02/2027", home:false, opp:'מכבי שוהם "צו פיוס"',                 venue:null, time:null, logo:"maccabi-shoham.png" },
-  { r:14, d:"13/02/2027", home:true,  opp:'א.ס. נורדיה ירושלים "צו פיוס"',       venue:null, time:null, logo:"beitar-nordia-jerusalem.png" },
-  { r:15, d:"20/02/2027", home:false, opp:'גדנע ת"א עודד',                       venue:null, time:null, logo:"gadna-tel-aviv.png" },
-  { r:16, d:"06/03/2027", home:true,  opp:'הפועל אזור "צו פיוס"',                venue:null, time:null, logo:"hapoel-azor.png" },
-  { r:17, d:"13/03/2027", home:false, opp:'הכח מכבי עמידר ר"ג דרום',             venue:null, time:null, logo:"hakoah-ramat-gan.png" },
-  { r:18, d:"20/03/2027", home:false, opp:'הפ\' באר שבע אדום "צו פיוס"',          venue:null, time:null, logo:"beer-sheva.png" },
-  { r:19, d:"27/03/2027", home:true,  opp:'מכבי קרית גת',                        venue:null, time:null, logo:"kiryat-gat.png" },
-  { r:20, d:"03/04/2027", home:false, opp:'מכבי השקמה חן דרום "צו פיוס"',        venue:null, time:null, logo:"hashikma.png" },
-  { r:21, d:"06/04/2027", home:true,  opp:'הפועל ר\'ג צפון',                     venue:null, time:null, logo:"hapoel-ramat-gan.png" },
-  { r:22, d:"10/04/2027", home:false, opp:'מכבי יפו קביליו ברוך "צו פיוס"',      venue:null, time:null, logo:"maccabi-jaffa.png" },
-  { r:23, d:"17/04/2027", home:false, opp:'עירוני מודיעין "צו פיוס"',            venue:null, time:null, logo:"ironi-modiin.png" },
-  { r:24, d:"24/04/2027", home:true,  opp:'מכבי רחובות "צו פיוס"',               venue:null, time:null, logo:"maccabi-rehovot.png" },
-  { r:25, d:"01/05/2027", home:false, opp:'שמשון ת"א מרכז',                      venue:null, time:null, logo:"shimshon-ta.png" },
-  { r:26, d:"08/05/2027", home:true,  opp:'בית"ר תל אביב חולון 1 "צו פיוס"',     venue:null, time:null, logo:"otzma-holon.jpg" },
-  { r:27, d:"15/05/2027", home:false, opp:'הפועל ראשון לציון מערב',             venue:null, time:null, logo:"hapoel-rishon.png" },
-  { r:28, d:"18/05/2027", home:true,  opp:'הפועל קרית אונו דרום',                venue:null, time:null, logo:"hapoel-kiryat-ono.png" },
-  { r:29, d:"22/05/2027", home:false, opp:'מכבי עירוני בת ים דרום "צו פיוס"',    venue:null, time:null, logo:"maccabi-bat-yam.jpg" },
-  { r:30, d:"29/05/2027", home:true,  opp:'מכבי שוהם "צו פיוס"',                 venue:null, time:null, logo:"maccabi-shoham.png" }
-];
-
-const TODAY = new Date("2026-10-12T00:00:00");
+const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 const parseDMY = s => { const [day,mon,yr]=s.split("/").map(Number); return new Date(yr,mon-1,day); };
 const WD = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
 const weekday = s => { const i = parseDMY(s).getDay(); return i===6 ? "שבת" : "יום "+WD[i]; };
-const nextRound = (FIXTURES.find(m=>parseDMY(m.d)>=TODAY)||{}).r;
 
 const list = document.getElementById("list");
+let FIXTURES = [];
+let nextRound = null;
 
 function logoMarkup(m){
   if(m.logo){
@@ -307,9 +276,9 @@ function gameMarkup(m){
   const isNext = m.r===nextRound;
   const venue = m.venue ? m.venue : `<span class="tbd">טרם נקבע</span>`;
   const time  = m.time  ? m.time  : `<span class="tbd">טרם נקבע</span>`;
-  const gmaps = m.maps || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(m.address+", חולון");
+  const gmaps = m.maps || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent((m.address||m.venue||"")+", חולון");
   const wazeBtn = m.waze ? `<a class="btn-waze" target="_blank" rel="noopener" href="${m.waze}">ניווט ב-Waze ↗</a>` : "";
-  const extra = (m.address && isNext) ? `
+  const extra = m.address ? `
     <div class="game-extra">
       <div class="addr">📍 <span><b>כתובת:</b> ${m.address}</span></div>
       <div class="nav-btns">
@@ -338,17 +307,40 @@ function gameMarkup(m){
   </article>`;
 }
 
-list.innerHTML = FIXTURES.map(gameMarkup).join("");
+function applyFilter(f){
+  document.querySelectorAll(".game").forEach(c=>{
+    c.style.display = (f==="all" || c.dataset.ha===f) ? "" : "none";
+  });
+}
 
 document.getElementById("filters").addEventListener("click", e=>{
   const btn = e.target.closest("button");
   if(!btn) return;
   document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active", b===btn));
-  const f = btn.dataset.filter;
-  document.querySelectorAll(".game").forEach(c=>{
-    c.style.display = (f==="all" || c.dataset.ha===f) ? "" : "none";
-  });
+  applyFilter(btn.dataset.filter);
 });
+
+async function boot(){
+  let data;
+  try{
+    const res = await fetch("data/fixtures.json", { cache: "no-store" });
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    data = await res.json();
+  }catch(err){
+    list.innerHTML = `<p class="loaderr">לא ניתן לטעון את לוח המשחקים (${err.message}). נסו לרענן את העמוד.</p>`;
+    return;
+  }
+  FIXTURES = data.games || [];
+  if(data.meta && data.meta.updated){
+    const el = document.getElementById("updated");
+    if(el) el.textContent = data.meta.updated;
+  }
+  nextRound = (FIXTURES.find(m=>parseDMY(m.d)>=TODAY)||{}).r;
+  list.innerHTML = FIXTURES.map(gameMarkup).join("");
+  applyFilter("all");
+}
+
+boot();
 </script>
 </body>
 </html>

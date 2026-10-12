@@ -1,0 +1,15 @@
+{
+  "name": "yirmiyahu-holon-fixtures",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Live 2026/27 fixture page for M.C. Yirmiyahu Holon U13 (Dan district) with an IFA schedule updater",
+  "scripts": {
+    "update": "node tools/update-schedule.mjs",
+    "update:dry": "node tools/update-schedule.mjs --dry-run",
+    "serve": "python3 -m http.server 8765"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.0"
+  }
+}
