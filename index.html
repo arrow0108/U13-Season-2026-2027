@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מ.כ ירמיהו חולון — לוח משחקים 2026/27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --purple:#6d28d9;
+    --purple-2:#7c3aed;
+    --purple-deep:#3b0764;
+    --purple-soft:#ede9fe;
+    --yellow:#facc15;
+    --yellow-deep:#eab308;
+    --yellow-soft:#fef9c3;
+    --ink:#1e1b33;
+    --muted:#6b7280;
+    --bg:#f4f2fb;
+    --card:#ffffff;
+    --line:#eceaf5;
+    --shadow:0 10px 30px rgba(59,7,100,.08);
+    --shadow-lg:0 18px 50px rgba(59,7,100,.18);
+    --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:'Heebo',system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(1200px 500px at 50% -10%, rgba(250,204,21,.22), transparent 60%),
+      linear-gradient(160deg,#2a0650 0%, #3b0764 45%, #5b21b6 100%);
+    color:#fff;
+    padding:54px 18px 64px;
+    text-align:center;
+  }
+  .hero::before,.hero::after{
+    content:"";position:absolute;border-radius:50%;pointer-events:none;
+  }
+  .hero::before{
+    width:520px;height:520px;left:-160px;top:-180px;
+    background:radial-gradient(circle,rgba(124,58,237,.55),transparent 70%);
+  }
+  .hero::after{
+    width:420px;height:420px;right:-140px;bottom:-200px;
+    background:radial-gradient(circle,rgba(250,204,21,.20),transparent 70%);
+  }
+  .hero-inner{position:relative;z-index:2}
+  .crest{
+    width:clamp(170px,22vw,240px);
+    height:auto;
+    display:block;
+    margin:0 auto 18px;
+    filter:drop-shadow(0 24px 40px rgba(0,0,0,.45)) drop-shadow(0 0 30px rgba(250,204,21,.35));
+    animation:float 6s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .hero h1{
+    margin:0 0 8px;
+    font-size:clamp(30px,5.2vw,52px);
+    font-weight:900;
+    letter-spacing:-.5px;
+    text-shadow:0 4px 24px rgba(0,0,0,.35);
+  }
+  .hero .sub{
+    margin:0 auto 22px;
+    max-width:640px;
+    font-size:clamp(15px,2.2vw,19px);
+    color:#e9e2ff;
+    font-weight:500;
+  }
+  .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .chip{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 16px;border-radius:999px;
+    font-weight:700;font-size:14px;
+    backdrop-filter:blur(4px);
+  }
+  .chip.y{background:var(--yellow);color:#4a2d00}
+  .chip.p{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.28)}
+
+  /* ---------- STATS ---------- */
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;margin:-34px auto 0;position:relative;z-index:3;
+  }
+  .stat{
+    background:var(--card);border-radius:16px;padding:16px 18px;
+    box-shadow:var(--shadow);border:1px solid var(--line);
+    display:flex;flex-direction:column;gap:2px;
+  }
+  .stat .n{font-size:30px;font-weight:900;color:var(--purple);line-height:1.1}
+  .stat .l{font-size:13px;color:var(--muted);font-weight:600}
+
+  /* ---------- FILTERS ---------- */
+  .toolbar{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:14px;flex-wrap:wrap;margin:34px 0 18px;
+  }
+  .toolbar h2{margin:0;font-size:clamp(20px,3vw,26px);font-weight:900}
+  .toolbar h2 span{color:var(--purple-2)}
+  .filters{display:flex;gap:8px;background:#fff;padding:6px;border-radius:999px;box-shadow:var(--shadow)}
+  .filters button{
+    border:0;background:transparent;cursor:pointer;
+    font-family:inherit;font-weight:700;font-size:14px;color:var(--muted);
+    padding:9px 18px;border-radius:999px;transition:.18s;
+  }
+  .filters button:hover{color:var(--purple)}
+  .filters button.active{background:var(--purple);color:#fff;box-shadow:0 6px 16px rgba(109,40,217,.35)}
+
+  /* ---------- SCHEDULE ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+    gap:18px;
+    padding-bottom:60px;
+  }
+  .card{
+    position:relative;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    border-top:5px solid var(--purple);
+    transition:transform .18s ease, box-shadow .18s ease;
+    display:flex;flex-direction:column;gap:14px;
+  }
+  .card.home{border-top-color:var(--yellow)}
+  .card.away{border-top-color:var(--purple)}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+
+  .card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .round{
+    display:inline-flex;align-items:center;gap:8px;
+    font-weight:800;font-size:13px;color:var(--purple-deep);
+  }
+  .round b{
+    display:inline-grid;place-items:center;
+    width:30px;height:30px;border-radius:10px;
+    background:var(--purple-soft);color:var(--purple);
+    font-size:15px;font-weight:900;
+  }
+  .date{font-weight:700;font-size:14px;color:var(--ink);direction:ltr}
+
+  .matchup{display:flex;align-items:center;gap:14px}
+  .logo-box{
+    flex:0 0 auto;width:64px;height:64px;border-radius:16px;
+    background:#fff;border:1px solid var(--line);
+    display:grid;place-items:center;padding:8px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.02);
+  }
+  .logo-box img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .mono{
+    width:100%;height:100%;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(145deg,var(--purple-soft),#ddd6fe);
+    color:var(--purple-deep);font-weight:900;font-size:20px;
+  }
+  .vs{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .vs .lbl{font-size:12px;font-weight:700;color:var(--muted)}
+  .vs .name{font-size:17px;font-weight:800;line-height:1.25;overflow-wrap:anywhere}
+
+  .ha{
+    display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+    font-size:12px;font-weight:800;padding:5px 12px;border-radius:999px;
+  }
+  .ha.home{background:var(--yellow-soft);color:#7a5b00}
+  .ha.away{background:var(--purple-soft);color:var(--purple)}
+  .ha .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.8}
+
+  .meta{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;
+    border-top:1px dashed var(--line);padding-top:12px;
+  }
+  .meta div{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12.5px;font-weight:600;color:var(--muted);
+  }
+  .meta .ic{color:var(--purple-2)}
+  .tbd{color:#b8b3c9;font-style:italic}
+
+  .next-ribbon{
+    position:absolute;top:-1px;left:22px;transform:translateY(-50%);
+    background:var(--purple);color:#fff;font-size:11.5px;font-weight:800;
+    padding:5px 12px;border-radius:999px;box-shadow:0 6px 14px rgba(109,40,217,.4);
+  }
+  .card.next{border-color:var(--purple-2);box-shadow:0 0 0 2px rgba(124,58,237,.35),var(--shadow-lg)}
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    background:#fff;border-radius:var(--radius);border:1px solid var(--line);
+    box-shadow:var(--shadow);padding:26px;margin:0 auto 34px;
+  }
+  .about h3{margin:0 0 12px;font-size:18px;font-weight:900;color:var(--purple-deep)}
+  .about p{margin:0 0 8px;color:var(--muted);font-size:14.5px}
+  .about .sources{font-size:13px;color:#928ca6;margin-top:14px}
+
+  footer{
+    background:#2a0650;color:#cbbdea;text-align:center;
+    padding:26px 18px;font-size:13.5px;
+  }
+  footer b{color:var(--yellow)}
+
+  @media (max-width:520px){
+    .grid{grid-template-columns:1fr}
+    .hero{padding:40px 14px 52px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <img class="crest" src="assets/yirmiyahu-holon.png" alt="סמל מ.כ ירמיהו חולון">
+    <h1>מ.כ ירמיהו חולון</h1>
+    <p class="sub">ליגת ילדים א׳ · מחוז דן · עונת 2026/2027</p>
+    <div class="chips">
+      <span class="chip y">🟣🟡 הסגול־צהוב</span>
+      <span class="chip p">🏟️ חולון אימונים סינטטי</span>
+      <span class="chip p">📅 30 מחזורים</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="stats">
+    <div class="stat"><span class="n">30</span><span class="l">מחזורים</span></div>
+    <div class="stat"><span class="n">15</span><span class="l">משחקי בית</span></div>
+    <div class="stat"><span class="n">15</span><span class="l">משחקי חוץ</span></div>
+    <div class="stat"><span class="n">17</span><span class="l">יריבות שונות</span></div>
+  </section>
+
+  <div class="toolbar">
+    <h2>לוח <span>המשחקים</span></h2>
+    <div class="filters" id="filters">
+      <button data-filter="all" class="active">הכל</button>
+      <button data-filter="home">בית</button>
+      <button data-filter="away">חוץ</button>
+    </div>
+  </div>
+
+  <section class="grid" id="grid"></section>
+
+  <section class="about">
+    <h3>על המועדון</h3>
+    <p>מועדון הכדורגל ירמיהו חולון (מועדון כדורגל חולון ירמיהו) הוא מועדון כדורגל מהעיר חולון. קבוצת הילדים א׳ מתמודדת בעונת 2026/2027 בליגת ילדים א׳ מחוז דן.</p>
+    <p>המשחק הראשון של העונה יוצא לדרך ב־16/10/2026 בשעה 12:45, במגרש האימונים הסינטטי בחולון, מול הפועל באר שבע אדום.</p>
+    <p class="sources">מקור הנתונים: אתר ההתאחדות לכדורגל בישראל (football.org.il) · תאריכים, שעות ומגרשים למחזורים 2–30 טרם נקבעו סופית ומתעדכנים בהתאם לפרסומי ההתאחדות.</p>
+  </section>
+</div>
+
+<footer>
+  נבנה עבור <b>מ.כ ירמיהו חולון</b> · עונת 2026/2027 · ליגת ילדים א׳ מחוז דן
+</footer>
+
+<script>
+const FIXTURES = [
+  { r:1,  d:"16/10/2026", home:true,  opp:'הפ\' באר שבע אדום "צו פיוס"',        venue:"חולון אימונים סינטטי ליד בית העלמין", time:"12:45", logo:"beer-sheva.png" },
+  { r:2,  d:"28/10/2026", home:false, opp:'מכבי קרית גת',                        venue:null, time:null, logo:"kiryat-gat.png" },
+  { r:3,  d:"31/10/2026", home:true,  opp:'מכבי השקמה חן דרום "צו פיוס"',        venue:null, time:null, logo:"hashikma.png" },
+  { r:4,  d:"14/11/2026", home:false, opp:'הפועל ר\'ג צפון',                     venue:null, time:null, logo:"hapoel-ramat-gan.png" },
+  { r:5,  d:"28/11/2026", home:true,  opp:'מכבי יפו קביליו ברוך "צו פיוס"',      venue:null, time:null, logo:"maccabi-jaffa.png" },
+  { r:6,  d:"05/12/2026", home:true,  opp:'עירוני מודיעין "צו פיוס"',            venue:null, time:null, logo:"ironi-modiin.png" },
+  { r:7,  d:"19/12/2026", home:false, opp:'מכבי רחובות "צו פיוס"',               venue:null, time:null, logo:"maccabi-rehovot.png" },
+  { r:8,  d:"26/12/2026", home:true,  opp:'שמשון ת"א מרכז',                      venue:null, time:null, logo:"shimshon-ta.png" },
+  { r:9,  d:"09/01/2027", home:false, opp:'בית"ר תל אביב חולון 1 "צו פיוס"',     venue:null, time:null, logo:"otzma-holon.jpg" },
+  { r:10, d:"16/01/2027", home:true,  opp:'הפועל ראשון לציון מערב',             venue:null, time:null, logo:"hapoel-rishon.png" },
+  { r:11, d:"23/01/2027", home:false, opp:'הפועל קרית אונו דרום',                venue:null, time:null, logo:"hapoel-kiryat-ono.png" },
+  { r:12, d:"30/01/2027", home:true,  opp:'מכבי עירוני בת ים דרום "צו פיוס"',    venue:null, time:null, logo:"maccabi-bat-yam.jpg" },
+  { r:13, d:"06/02/2027", home:false, opp:'מכבי שוהם "צו פיוס"',                 venue:null, time:null, logo:"maccabi-shoham.png" },
+  { r:14, d:"13/02/2027", home:true,  opp:'א.ס. נורדיה ירושלים "צו פיוס"',       venue:null, time:null, logo:"beitar-nordia-jerusalem.png" },
+  { r:15, d:"20/02/2027", home:false, opp:'גדנע ת"א עודד',                       venue:null, time:null, logo:"gadna-tel-aviv.png" },
+  { r:16, d:"06/03/2027", home:true,  opp:'הפועל אזור "צו פיוס"',                venue:null, time:null, logo:"hapoel-azor.png" },
+  { r:17, d:"13/03/2027", home:false, opp:'הכח מכבי עמידר ר"ג דרום',             venue:null, time:null, logo:"hakoah-ramat-gan.png" },
+  { r:18, d:"20/03/2027", home:false, opp:'הפ\' באר שבע אדום "צו פיוס"',          venue:null, time:null, logo:"beer-sheva.png" },
+  { r:19, d:"27/03/2027", home:true,  opp:'מכבי קרית גת',                        venue:null, time:null, logo:"kiryat-gat.png" },
+  { r:20, d:"03/04/2027", home:false, opp:'מכבי השקמה חן דרום "צו פיוס"',        venue:null, time:null, logo:"hashikma.png" },
+  { r:21, d:"06/04/2027", home:true,  opp:'הפועל ר\'ג צפון',                     venue:null, time:null, logo:"hapoel-ramat-gan.png" },
+  { r:22, d:"10/04/2027", home:false, opp:'מכבי יפו קביליו ברוך "צו פיוס"',      venue:null, time:null, logo:"maccabi-jaffa.png" },
+  { r:23, d:"17/04/2027", home:false, opp:'עירוני מודיעין "צו פיוס"',            venue:null, time:null, logo:"ironi-modiin.png" },
+  { r:24, d:"24/04/2027", home:true,  opp:'מכבי רחובות "צו פיוס"',               venue:null, time:null, logo:"maccabi-rehovot.png" },
+  { r:25, d:"01/05/2027", home:false, opp:'שמשון ת"א מרכז',                      venue:null, time:null, logo:"shimshon-ta.png" },
+  { r:26, d:"08/05/2027", home:true,  opp:'בית"ר תל אביב חולון 1 "צו פיוס"',     venue:null, time:null, logo:"otzma-holon.jpg" },
+  { r:27, d:"15/05/2027", home:false, opp:'הפועל ראשון לציון מערב',             venue:null, time:null, logo:"hapoel-rishon.png" },
+  { r:28, d:"18/05/2027", home:true,  opp:'הפועל קרית אונו דרום',                venue:null, time:null, logo:"hapoel-kiryat-ono.png" },
+  { r:29, d:"22/05/2027", home:false, opp:'מכבי עירוני בת ים דרום "צו פיוס"',    venue:null, time:null, logo:"maccabi-bat-yam.jpg" },
+  { r:30, d:"29/05/2027", home:true,  opp:'מכבי שוהם "צו פיוס"',                 venue:null, time:null, logo:"maccabi-shoham.png" }
+];
+
+const TODAY = new Date("2026-10-12T00:00:00");
+const parseDMY = s => { const [day,mon,yr]=s.split("/").map(Number); return new Date(yr,mon-1,day); };
+const nextRound = (FIXTURES.find(m=>parseDMY(m.d)>=TODAY)||{}).r;
+
+const grid = document.getElementById("grid");
+
+function logoMarkup(m){
+  if(m.logo){
+    return `<div class="logo-box"><img src="assets/${m.logo}" alt="לוגו ${m.opp}" loading="lazy"></div>`;
+  }
+  return `<div class="logo-box"><div class="mono">${m.abbr||"?"}</div></div>`;
+}
+
+function cardMarkup(m){
+  const ha = m.home ? "בית" : "חוץ";
+  const isNext = m.r===nextRound;
+  const venue = m.venue ? m.venue : `<span class="tbd">טרם נקבע</span>`;
+  const time  = m.time  ? m.time  : `<span class="tbd">טרם נקבע</span>`;
+  return `<article class="card ${m.home?"home":"away"}${isNext?" next":""}" data-ha="${m.home?"home":"away"}">
+    ${isNext?`<span class="next-ribbon">המשחק הבא</span>`:""}
+    <div class="card-head">
+      <span class="round"><b>${m.r}</b> מחזור</span>
+      <span class="date">${m.d}</span>
+    </div>
+    <div class="matchup">
+      ${logoMarkup(m)}
+      <div class="vs">
+        <span class="lbl">${m.home?"אורחת":"מארחת"}</span>
+        <span class="name">${m.opp}</span>
+      </div>
+    </div>
+    <span class="ha ${m.home?"home":"away"}"><span class="dot"></span>${ha}</span>
+    <div class="meta">
+      <div><span class="ic">🏟️</span> ${venue}</div>
+      <div><span class="ic">⏰</span> ${time}</div>
+    </div>
+  </article>`;
+}
+
+grid.innerHTML = FIXTURES.map(cardMarkup).join("");
+
+document.getElementById("filters").addEventListener("click", e=>{
+  const btn = e.target.closest("button");
+  if(!btn) return;
+  document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active", b===btn));
+  const f = btn.dataset.filter;
+  document.querySelectorAll(".card").forEach(c=>{
+    c.style.display = (f==="all" || c.dataset.ha===f) ? "" : "none";
+  });
+});
+</script>
+</body>
+</html>
