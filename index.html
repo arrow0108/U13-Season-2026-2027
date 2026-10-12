@@ -167,12 +167,15 @@
   }
   .game-extra .addr{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink)}
   .game-extra .addr b{color:var(--purple-deep)}
-  .btn-map{
-    margin-inline-start:auto;display:inline-flex;align-items:center;gap:7px;
-    background:var(--purple);color:#fff;text-decoration:none;font-weight:800;font-size:13.5px;
-    padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px rgba(109,40,217,.35);transition:.18s;
+  .nav-btns{margin-inline-start:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .btn-map,.btn-waze{
+    display:inline-flex;align-items:center;gap:7px;color:#fff;text-decoration:none;
+    font-weight:800;font-size:13.5px;padding:9px 16px;border-radius:999px;transition:.18s;
   }
+  .btn-map{background:var(--purple);box-shadow:0 8px 20px rgba(109,40,217,.35)}
   .btn-map:hover{background:var(--purple-2);transform:translateY(-1px)}
+  .btn-waze{background:#0ea5e9;box-shadow:0 8px 20px rgba(14,165,233,.35)}
+  .btn-waze:hover{background:#0284c7;transform:translateY(-1px)}
   .next-badge{
     align-self:flex-start;background:var(--purple);color:#fff;
     font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;
@@ -200,7 +203,8 @@
     .c-date{order:2}
     .c-round{order:1}
     .c-meta{order:4}
-    .btn-map{margin-inline-start:0;width:100%;justify-content:center}
+    .nav-btns{margin-inline-start:0;width:100%}
+    .btn-map,.btn-waze{flex:1;justify-content:center}
   }
 </style>
 </head>
@@ -252,7 +256,7 @@
 
 <script>
 const FIXTURES = [
-  { r:1,  d:"16/10/2026", home:true,  opp:'הפ\' באר שבע אדום "צו פיוס"',        venue:"מגרש כדורגל חולון (ליד בית העלמין)", address:"מגרש כדורגל חולון — ליד בית העלמין, חולון", maps:"https://maps.app.goo.gl/BxWrf7HNsw1GnrCi8", time:"12:45", logo:"beer-sheva.png" },
+  { r:1,  d:"16/10/2026", home:true,  opp:'הפ\' באר שבע אדום "צו פיוס"',        venue:"מגרש כדורגל חולון (ליד בית העלמין)", address:"מגרש כדורגל חולון — ליד בית העלמין, חולון", maps:"https://maps.app.goo.gl/BxWrf7HNsw1GnrCi8", waze:"https://www.waze.com/ul?ll=32.003206,34.7576657&navigate=yes&zoom=17", time:"12:45", logo:"beer-sheva.png" },
   { r:2,  d:"28/10/2026", home:false, opp:'מכבי קרית גת',                        venue:null, time:null, logo:"kiryat-gat.png" },
   { r:3,  d:"31/10/2026", home:true,  opp:'מכבי השקמה חן דרום "צו פיוס"',        venue:null, time:null, logo:"hashikma.png" },
   { r:4,  d:"14/11/2026", home:false, opp:'הפועל ר\'ג צפון',                     venue:null, time:null, logo:"hapoel-ramat-gan.png" },
@@ -303,11 +307,15 @@ function gameMarkup(m){
   const isNext = m.r===nextRound;
   const venue = m.venue ? m.venue : `<span class="tbd">טרם נקבע</span>`;
   const time  = m.time  ? m.time  : `<span class="tbd">טרם נקבע</span>`;
+  const gmaps = m.maps || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(m.address+", חולון");
+  const wazeBtn = m.waze ? `<a class="btn-waze" target="_blank" rel="noopener" href="${m.waze}">ניווט ב-Waze ↗</a>` : "";
   const extra = (m.address && isNext) ? `
     <div class="game-extra">
       <div class="addr">📍 <span><b>כתובת:</b> ${m.address}</span></div>
-      <a class="btn-map" target="_blank" rel="noopener"
-         href="${m.maps || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(m.address+", חולון")}">ניווט ב-Google Maps ↗</a>
+      <div class="nav-btns">
+        <a class="btn-map" target="_blank" rel="noopener" href="${gmaps}">ניווט ב-Google Maps ↗</a>
+        ${wazeBtn}
+      </div>
     </div>` : "";
   return `<article class="game ${m.home?"home":"away"}${isNext?" next":""}" data-ha="${m.home?"home":"away"}">
     <div class="game-main">
