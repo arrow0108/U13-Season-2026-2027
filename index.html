@@ -318,7 +318,7 @@ function logoMarkup(m){
 }
 
 function scoreMarkup(m){
-  if(!m.score) return `<div class="c-score"><span class="tbd">טרם נשוחק</span></div>`;
+  if(!m.score) return `<div class="c-score"><span class="tbd">טרם שוחק</span></div>`;
   const us = Number(m.score.us), them = Number(m.score.them);
   const cls = us>them ? "win" : (us===them ? "draw" : "loss");
   const label = us>them ? "ניצחון" : (us===them ? "תיקו" : "הפסד");
