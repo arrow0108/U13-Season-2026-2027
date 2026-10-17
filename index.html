@@ -159,6 +159,35 @@
   .c-meta .ln span{overflow-wrap:anywhere}
   .tbd{color:#a7a1bd}
   .loaderr{margin:0;padding:16px 18px;background:#fef2f2;border:1px solid #fecaca;border-radius:14px;color:#b91c1c;font-weight:700}
+  .c-score{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:76px}
+  .c-score .sc{font-size:20px;font-weight:900;line-height:1;color:var(--purple-deep)}
+  .c-score .sc i{font-style:normal;color:var(--muted);font-weight:700;padding:0 3px;font-size:16px}
+  .c-score .res{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+  .c-score.win .sc{color:#15803d}
+  .c-score.win .res{background:#dcfce7;color:#15803d}
+  .c-score.draw .sc{color:#a16207}
+  .c-score.draw .res{background:var(--yellow-soft);color:#7a5b00}
+  .c-score.loss .sc{color:#b91c1c}
+  .c-score.loss .res{background:#fee2e2;color:#b91c1c}
+  .p-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:9px 16px 12px;border-top:1px dashed var(--line)}
+  .p-tag{font-size:12.5px;font-weight:900;color:var(--purple-deep);background:var(--purple-soft);padding:3px 10px;border-radius:999px}
+  .chip{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+  .chip.start{background:var(--purple);color:#fff}
+  .chip.sub{background:var(--yellow-soft);color:#7a5b00}
+  .stat-mini{font-size:12.5px;font-weight:700;color:var(--muted)}
+  .player-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin:0 0 34px}
+  .player-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+  .player-badge{width:54px;height:54px;border-radius:16px;flex:0 0 auto;background:linear-gradient(150deg,var(--purple),var(--purple-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px}
+  .player-head h3{margin:0;font-size:clamp(18px,2.6vw,22px);font-weight:900;color:var(--purple-deep)}
+  .player-head .sub{font-size:13px;color:var(--muted);font-weight:600}
+  .ptable-wrap{overflow-x:auto}
+  .ptable{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+  .ptable th,.ptable td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line)}
+  .ptable th{background:var(--purple-soft);color:var(--purple-deep);font-weight:800;font-size:12.5px}
+  .ptable tbody tr:hover{background:#faf9ff}
+  .ptable th:first-child,.ptable td:first-child,.ptable th:nth-child(2),.ptable td:nth-child(2){text-align:start}
+  .ptable .tot td{font-weight:900;color:var(--purple-deep);background:#faf9ff;border-bottom:0}
+  .empty{margin:0;color:var(--muted);font-weight:600;font-size:14px}
 
   /* upcoming-game extra line */
   .game-extra{
@@ -203,7 +232,8 @@
     .c-match{flex:1 1 100%;order:3}
     .c-date{order:2}
     .c-round{order:1}
-    .c-meta{order:4}
+    .c-score{order:4}
+    .c-meta{order:5}
     .nav-btns{margin-inline-start:0;width:100%}
     .btn-map,.btn-waze{flex:1;justify-content:center}
   }
@@ -243,6 +273,8 @@
 
   <section class="list" id="list"></section>
 
+  <section class="player-card" id="player"></section>
+
   <section class="about">
     <h3>על המועדון</h3>
     <p>מועדון הכדורגל ירמיהו חולון (מועדון כדורגל חולון ירמיהו) הוא מועדון כדורגל מהעיר חולון. קבוצת הילדים א׳ מתמודדת בעונת 2026/2027 בליגת ילדים א׳ מחוז דן.</p>
@@ -262,14 +294,70 @@ const WD = ["ראשון","שני","שלישי","רביעי","חמישי","שיש
 const weekday = s => { const i = parseDMY(s).getDay(); return i===6 ? "שבת" : "יום "+WD[i]; };
 
 const list = document.getElementById("list");
+const playerBox = document.getElementById("player");
 let FIXTURES = [];
 let nextRound = null;
+let PLAYER = { name: "שחקן #29", number: 29, position: "", games: [] };
 
 function logoMarkup(m){
   if(m.logo){
     return `<div class="logo-box"><img src="assets/${m.logo}" alt="לוגו ${m.opp}" loading="lazy"></div>`;
   }
   return `<div class="logo-box"><div class="mono">${m.abbr||"?"}</div></div>`;
+}
+
+function scoreMarkup(m){
+  if(!m.score) return `<div class="c-score"><span class="tbd">טרם נשוחק</span></div>`;
+  const us = Number(m.score.us), them = Number(m.score.them);
+  const cls = us>them ? "win" : (us===them ? "draw" : "loss");
+  const label = us>them ? "ניצחון" : (us===them ? "תיקו" : "הפסד");
+  return `<div class="c-score ${cls}"><span class="sc">${us}<i>–</i>${them}</span><span class="res">${label}</span></div>`;
+}
+
+function playerGame(round){
+  return (PLAYER.games||[]).find(g=>g.r===round);
+}
+
+function playerLine(m){
+  const s = playerGame(m.r);
+  if(!s) return "";
+  return `<div class="p-line">
+      <span class="p-tag">#${PLAYER.number} ${PLAYER.name}</span>
+      <span class="chip ${s.started?"start":"sub"}">${s.started?"בהרכב":"מחליף"}</span>
+      <span class="stat-mini">⏱ ${s.min||0}׳</span>
+      <span class="stat-mini">⚽ ${s.goals||0}</span>
+      <span class="stat-mini">🅰 ${s.assists||0}</span>
+    </div>`;
+}
+
+function seasonMarkup(){
+  const g = (PLAYER.games||[]);
+  const apps = g.length;
+  const starts = g.filter(x=>x.started).length;
+  const subs = apps - starts;
+  const min = g.reduce((a,x)=>a+(x.min||0),0);
+  const goals = g.reduce((a,x)=>a+(x.goals||0),0);
+  const assists = g.reduce((a,x)=>a+(x.assists||0),0);
+  const head = `<div class="player-head">
+      <div class="player-badge">#${PLAYER.number}</div>
+      <div>
+        <h3>${PLAYER.name}</h3>
+        <div class="sub">${PLAYER.position||"שחקן"} · סטטיסטיקות עונת 2026/2027</div>
+      </div>
+    </div>`;
+  if(apps===0){
+    return head + `<p class="empty">אין עדיין נתוני משחק לשחקן. הנתונים יוצגו לאחר שיוזנו דקות משחק, שערים ובישולים לכל מחזור.</p>`;
+  }
+  const rows = g.map(s=>{
+    const fx = FIXTURES.find(m=>m.r===s.r)||{};
+    return `<tr><td>${s.r}</td><td>${fx.opp||""}</td><td>${s.started?"בהרכב":"מחליף"}</td><td>${s.min||0}</td><td>${s.goals||0}</td><td>${s.assists||0}</td></tr>`;
+  }).join("");
+  return head + `<div class="ptable-wrap"><table class="ptable">
+      <thead><tr><th>מחזור</th><th>יריבה</th><th>מעמד</th><th>דקות</th><th>שערים</th><th>בישולים</th></tr></thead>
+      <tbody>${rows}
+        <tr class="tot"><td>סה״כ</td><td>${apps} משחקים</td><td>${starts} בהרכב · ${subs} מחליף</td><td>${min}</td><td>${goals}</td><td>${assists}</td></tr>
+      </tbody>
+    </table></div>`;
 }
 
 function gameMarkup(m){
@@ -298,12 +386,14 @@ function gameMarkup(m){
           <span class="nm">${m.opp}</span>
         </div>
       </div>
+      ${scoreMarkup(m)}
       <div class="c-meta">
         <div class="ln">🏟️ <span>${venue}</span></div>
         <div class="ln">⏰ <span>${time}</span></div>
       </div>
     </div>
     ${extra}
+    ${playerLine(m)}
   </article>`;
 }
 
@@ -330,6 +420,10 @@ async function boot(){
     list.innerHTML = `<p class="loaderr">לא ניתן לטעון את לוח המשחקים (${err.message}). נסו לרענן את העמוד.</p>`;
     return;
   }
+  try{
+    const pres = await fetch("data/player.json", { cache: "no-store" });
+    if(pres.ok) PLAYER = await pres.json();
+  }catch(err){}
   FIXTURES = data.games || [];
   if(data.meta && data.meta.updated){
     const el = document.getElementById("updated");
@@ -338,6 +432,7 @@ async function boot(){
   nextRound = (FIXTURES.find(m=>parseDMY(m.d)>=TODAY)||{}).r;
   list.innerHTML = FIXTURES.map(gameMarkup).join("");
   applyFilter("all");
+  if(playerBox) playerBox.innerHTML = seasonMarkup();
 }
 
 boot();

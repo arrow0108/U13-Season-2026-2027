@@ -32,7 +32,7 @@ async function scrape() {
       document.querySelectorAll(".table_row").forEach(row => {
         const cells = [...row.querySelectorAll(".table_col")].map(cellText);
         if (cells.length >= 4 && /^\d{2}\/\d{2}\/\d{4}$/.test(cells[0])) {
-          out.push({ date: cells[0], match: cells[1], stadium: cells[2], time: cells[3] });
+          out.push({ date: cells[0], match: cells[1], stadium: cells[2], time: cells[3], result: cells[4] || "" });
         }
       });
       return out;
@@ -52,6 +52,14 @@ async function scrape() {
 function normTime(t) {
   if (!/^\d{1,2}:\d{2}$/.test(t || "")) return null;
   return t === "00:00" ? null : t;
+}
+
+function parseScore(result, home) {
+  const m = (result || "").match(/(\d+)\s*[-–:]\s*(\d+)/);
+  if (!m) return null;
+  const a = Number(m[1]);
+  const b = Number(m[2]);
+  return home ? { us: a, them: b } : { us: b, them: a };
 }
 
 function merge(rows, current, venues) {
@@ -74,7 +82,8 @@ function merge(rows, current, venues) {
       opp: prev.opp || oppFromIla,
       venue: stadium ? (vmap && vmap.label ? vmap.label : stadium) : prev.venue || null,
       time,
-      logo: prev.logo || null
+      logo: prev.logo || null,
+      score: parseScore(row.result, home) || prev.score || null
     };
     const source = vmap || prev;
     if (source.address) game.address = source.address;
@@ -92,7 +101,7 @@ function diff(before, after) {
   after.forEach(g => {
     const b = before.find(x => x.r === g.r);
     if (!b) { changes.push(`round ${g.r}: added`); return; }
-    ["d", "home", "venue", "time"].forEach(k => {
+    ["d", "home", "venue", "time", "score"].forEach(k => {
       if (JSON.stringify(b[k] ?? null) !== JSON.stringify(g[k] ?? null)) {
         changes.push(`round ${g.r}: ${k} ${JSON.stringify(b[k] ?? null)} -> ${JSON.stringify(g[k] ?? null)}`);
       }
