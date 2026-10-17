@@ -2,5 +2,7 @@
   "name": "שחקן #29",
   "number": 29,
   "position": "",
-  "games": []
+  "games": [
+    { "r": 1, "min": 50, "goals": 0, "assists": 1, "started": true }
+  ]
 }
