@@ -1,17 +1,17 @@
 {
   "meta": {
-    "competition": "גביע המדינה · גביע ילדים א׳",
-    "source": "https://www.football.org.il/team-details/?team_id=1896&season_id=28",
+    "competition": "גביע המדינה · גביע ילדים א׳ ע\"ש דוד שוויצר ז\"ל",
+    "source": "https://www.football.org.il/national-cup/?national_cup_id=590&season_id=28",
     "updated": "2026-10-17"
   },
   "games": [
     {
       "r": 1,
-      "d": null,
-      "home": null,
-      "opp": "גבעת שמואל",
-      "venue": null,
-      "time": null,
+      "d": "08/10/2026",
+      "home": false,
+      "opp": "מכבי גבעת שמואל",
+      "venue": "פתח תקוה מושבה צפוני חדש",
+      "time": "21:00",
       "score": { "us": 6, "them": 0 },
       "logo": null
     }
