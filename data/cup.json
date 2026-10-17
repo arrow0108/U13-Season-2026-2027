@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "competition": "גביע המדינה · גביע ילדים א׳",
+    "source": "https://www.football.org.il/team-details/?team_id=1896&season_id=28",
+    "updated": "2026-10-17"
+  },
+  "games": [
+    {
+      "r": 1,
+      "d": null,
+      "home": null,
+      "opp": "גבעת שמואל",
+      "venue": null,
+      "time": null,
+      "score": { "us": 6, "them": 0 },
+      "logo": null
+    }
+  ]
+}

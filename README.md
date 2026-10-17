@@ -11,6 +11,7 @@
 | `data/fixtures.json` | **מקור האמת** של לוח המשחקים (30 משחקים) |
 | `data/venues.json` | מיפוי שם מגרש ← כתובת + קישורי ניווט (Google Maps / Waze) |
 | `data/player.json` | נתוני השחקן (#29) — דקות, שערים, בישולים, הרכב/מחליף |
+| `data/cup.json` | משחקי גביע המדינה (גביע ילדים א׳) + תוצאות |
 | `tools/update-schedule.mjs` | סקריפט שמושך את הלוח מאתר ההתאחדות ומעדכן את `fixtures.json` |
 | `.github/workflows/update-schedule.yml` | הרצה ידנית של העדכון מ־GitHub Actions (הקובץ מוכן מקומית — יש להוסיף אותו לריפו כדי שהכפתור יופיע) |
 | `assets/` | לוגואים |
@@ -74,14 +75,30 @@ npm run update:dry
   "number": 29,
   "position": "קשר",
   "games": [
-    { "r": 1, "min": 60, "goals": 2, "assists": 1, "started": true }
+    { "comp": "league", "r": 1, "min": 50, "goals": 0, "assists": 1, "started": true },
+    { "comp": "cup", "r": 1, "min": 40, "goals": 0, "assists": 0, "started": true }
   ]
 }
 ```
 
-- `r` — מספר המחזור, `min` — דקות משחק, `goals` — שערים, `assists` — בישולים.
+- `comp` — `league` (ליגה) או `cup` (גביע). ברירת מחדל: `league`.
+- `r` — מספר המחזור/הסיבוב, `min` — דקות משחק, `goals` — שערים, `assists` — בישולים.
 - `started: true` — פתח בהרכב, `false` — נכנס כמחליף.
-- בעמוד תוצג שורת נתונים לכל מחזור, וסה״כ עונתי מתחתיה, וכן תקציר בכל שורת משחק בלוח.
+- בעמוד תוצג שורת נתונים לכל משחק (ליגה וגביע), וסה״כ עונתי מתחתיה, וכן תקציר בכל שורת משחק בלוח.
+
+### משחקי הגביע — `data/cup.json`
+
+```json
+{
+  "meta": { "competition": "גביע המדינה · גביע ילדים א׳", "updated": "2026-10-17" },
+  "games": [
+    { "r": 1, "d": null, "home": null, "opp": "גבעת שמואל", "venue": null, "time": null, "score": { "us": 6, "them": 0 } }
+  ]
+}
+```
+
+אותו מבנה בדיוק כמו משחקי הליגה. שדות `d` / `home` / `venue` / `time` יכולים להיות `null`
+עד שההתאחדות מפרסמת אותם — בעמוד הם יוצגו כ"טרם נקבע".
 
 ## הוספת מגרש חדש
 

@@ -181,7 +181,7 @@
   .player-head h3{margin:0;font-size:clamp(18px,2.6vw,22px);font-weight:900;color:var(--purple-deep)}
   .player-head .sub{font-size:13px;color:var(--muted);font-weight:600}
   .ptable-wrap{overflow-x:auto}
-  .ptable{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+  .ptable{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
   .ptable th,.ptable td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line)}
   .ptable th{background:var(--purple-soft);color:var(--purple-deep);font-weight:800;font-size:12.5px}
   .ptable tbody tr:hover{background:#faf9ff}
@@ -273,6 +273,11 @@
 
   <section class="list" id="list"></section>
 
+  <div class="toolbar">
+    <h2>גביע המדינה · גביע ילדים א׳</h2>
+  </div>
+  <section class="list" id="cup-list"></section>
+
   <section class="player-card" id="player"></section>
 
   <section class="about">
@@ -294,8 +299,10 @@ const WD = ["ראשון","שני","שלישי","רביעי","חמישי","שיש
 const weekday = s => { const i = parseDMY(s).getDay(); return i===6 ? "שבת" : "יום "+WD[i]; };
 
 const list = document.getElementById("list");
+const cupList = document.getElementById("cup-list");
 const playerBox = document.getElementById("player");
 let FIXTURES = [];
+let CUP = [];
 let nextRound = null;
 let PLAYER = { name: "שחקן #29", number: 29, position: "", games: [] };
 
@@ -314,12 +321,12 @@ function scoreMarkup(m){
   return `<div class="c-score ${cls}"><span class="sc">${us}<i>–</i>${them}</span><span class="res">${label}</span></div>`;
 }
 
-function playerGame(round){
-  return (PLAYER.games||[]).find(g=>g.r===round);
+function playerGame(scope, round){
+  return (PLAYER.games||[]).find(g=>g.r===round && (g.comp||"league")===scope);
 }
 
-function playerLine(m){
-  const s = playerGame(m.r);
+function playerLine(m, scope){
+  const s = playerGame(scope||"league", m.r);
   if(!s) return "";
   return `<div class="p-line">
       <span class="p-tag">#${PLAYER.number} ${PLAYER.name}</span>
@@ -349,19 +356,23 @@ function seasonMarkup(){
     return head + `<p class="empty">אין עדיין נתוני משחק לשחקן. הנתונים יוצגו לאחר שיוזנו דקות משחק, שערים ובישולים לכל מחזור.</p>`;
   }
   const rows = g.map(s=>{
-    const fx = FIXTURES.find(m=>m.r===s.r)||{};
-    return `<tr><td>${s.r}</td><td>${fx.opp||""}</td><td>${s.started?"בהרכב":"מחליף"}</td><td>${s.min||0}</td><td>${s.goals||0}</td><td>${s.assists||0}</td></tr>`;
+    const scope = s.comp||"league";
+    const src = scope==="cup" ? CUP : FIXTURES;
+    const fx = src.find(m=>m.r===s.r)||{};
+    const comp = scope==="cup" ? "גביע" : "ליגה";
+    return `<tr><td>${s.r}</td><td>${comp}</td><td>${fx.opp||""}</td><td>${s.started?"בהרכב":"מחליף"}</td><td>${s.min||0}</td><td>${s.goals||0}</td><td>${s.assists||0}</td></tr>`;
   }).join("");
   return head + `<div class="ptable-wrap"><table class="ptable">
-      <thead><tr><th>מחזור</th><th>יריבה</th><th>מעמד</th><th>דקות</th><th>שערים</th><th>בישולים</th></tr></thead>
+      <thead><tr><th>מחזור</th><th>מסגרת</th><th>יריבה</th><th>מעמד</th><th>דקות</th><th>שערים</th><th>בישולים</th></tr></thead>
       <tbody>${rows}
-        <tr class="tot"><td>סה״כ</td><td>${apps} משחקים</td><td>${starts} בהרכב · ${subs} מחליף</td><td>${min}</td><td>${goals}</td><td>${assists}</td></tr>
+        <tr class="tot"><td>סה״כ</td><td></td><td>${apps} משחקים</td><td>${starts} בהרכב · ${subs} מחליף</td><td>${min}</td><td>${goals}</td><td>${assists}</td></tr>
       </tbody>
     </table></div>`;
 }
 
-function gameMarkup(m){
-  const isNext = m.r===nextRound;
+function gameMarkup(m, scope){
+  scope = scope || "league";
+  const isNext = scope==="league" && m.r===nextRound;
   const venue = m.venue ? m.venue : `<span class="tbd">טרם נקבע</span>`;
   const time  = m.time  ? m.time  : `<span class="tbd">טרם נקבע</span>`;
   const gmaps = m.maps || "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent((m.address||m.venue||"")+", חולון");
@@ -374,15 +385,20 @@ function gameMarkup(m){
         ${wazeBtn}
       </div>
     </div>` : "";
+  const haChip = (typeof m.home==="boolean")
+    ? `<span class="ha ${m.home?"home":"away"}"><span class="dot"></span>${m.home?"בית":"חוץ"}</span>` : "";
+  const dateCell = m.d
+    ? `<span class="wd">${weekday(m.d)}</span><span class="dm">${m.d}</span>`
+    : `<span class="tbd">טרם נקבע</span>`;
   return `<article class="game ${m.home?"home":"away"}${isNext?" next":""}" data-ha="${m.home?"home":"away"}">
     <div class="game-main">
-      <div class="c-round"><b>${m.r}</b><i>מחזור</i></div>
-      <div class="c-date"><span class="wd">${weekday(m.d)}</span><span class="dm">${m.d}</span></div>
+      <div class="c-round"><b>${m.r}</b><i>${scope==="cup"?"סיבוב":"מחזור"}</i></div>
+      <div class="c-date">${dateCell}</div>
       <div class="c-match">
         ${logoMarkup(m)}
         <div class="opp">
           ${isNext?`<span class="next-badge">המשחק הבא</span>`:""}
-          <span class="ha ${m.home?"home":"away"}"><span class="dot"></span>${m.home?"בית":"חוץ"}</span>
+          ${haChip}
           <span class="nm">${m.opp}</span>
         </div>
       </div>
@@ -393,12 +409,12 @@ function gameMarkup(m){
       </div>
     </div>
     ${extra}
-    ${playerLine(m)}
+    ${playerLine(m, scope)}
   </article>`;
 }
 
 function applyFilter(f){
-  document.querySelectorAll(".game").forEach(c=>{
+  document.querySelectorAll("#list .game").forEach(c=>{
     c.style.display = (f==="all" || c.dataset.ha===f) ? "" : "none";
   });
 }
@@ -424,14 +440,23 @@ async function boot(){
     const pres = await fetch("data/player.json", { cache: "no-store" });
     if(pres.ok) PLAYER = await pres.json();
   }catch(err){}
+  try{
+    const cres = await fetch("data/cup.json", { cache: "no-store" });
+    if(cres.ok){ const c = await cres.json(); CUP = c.games || []; }
+  }catch(err){}
   FIXTURES = data.games || [];
   if(data.meta && data.meta.updated){
     const el = document.getElementById("updated");
     if(el) el.textContent = data.meta.updated;
   }
   nextRound = (FIXTURES.find(m=>parseDMY(m.d)>=TODAY)||{}).r;
-  list.innerHTML = FIXTURES.map(gameMarkup).join("");
+  list.innerHTML = FIXTURES.map(m=>gameMarkup(m,"league")).join("");
   applyFilter("all");
+  if(cupList){
+    cupList.innerHTML = CUP.length
+      ? CUP.map(m=>gameMarkup(m,"cup")).join("")
+      : `<p class="empty">טרם פורסמו משחקי גביע.</p>`;
+  }
   if(playerBox) playerBox.innerHTML = seasonMarkup();
 }
 

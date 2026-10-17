@@ -3,6 +3,7 @@
   "number": 29,
   "position": "",
   "games": [
-    { "r": 1, "min": 50, "goals": 0, "assists": 1, "started": true }
+    { "comp": "league", "r": 1, "min": 50, "goals": 0, "assists": 1, "started": true },
+    { "comp": "cup", "r": 1, "min": 40, "goals": 0, "assists": 0, "started": true }
   ]
 }
