@@ -12,12 +12,16 @@
 | `data/venues.json` | מיפוי שם מגרש ← כתובת + קישורי ניווט (Google Maps / Waze) |
 | `data/player.json` | נתוני השחקן (#29) — דקות, שערים, בישולים, הרכב/מחליף |
 | `tools/update-schedule.mjs` | סקריפט שמושך את הלוח מאתר ההתאחדות ומעדכן את `fixtures.json` |
-| `.github/workflows/update-schedule.yml` | הרצה ידנית של העדכון מ־GitHub Actions |
+| `.github/workflows/update-schedule.yml` | הרצה ידנית של העדכון מ־GitHub Actions (הקובץ מוכן מקומית — יש להוסיף אותו לריפו כדי שהכפתור יופיע) |
 | `assets/` | לוגואים |
 
 ## איך מעדכנים את הלוח כשההתאחדות מפרסמת שיבוץ
 
 ### אפשרות 1 — GitHub Actions (הכי נוח, בלי להתקין כלום)
+
+> דרישה מקדימה: להוסיף לריפו את `.github/workflows/update-schedule.yml`
+> (בממשק GitHub: **Add file → Create new file**, ולהדביק את תוכן הקובץ).
+> ללא הקובץ הזה לא יופיע ה־workflow בלשונית Actions.
 
 1. נכנסים לריפו → לשונית **Actions**.
 2. בוחרים בגלילה **Update schedule** ואז **Run workflow** ← **Run workflow**.
