@@ -182,13 +182,14 @@
   .player-head h3{margin:0;font-size:clamp(18px,2.6vw,22px);font-weight:900;color:var(--purple-deep)}
   .player-head .sub{font-size:13px;color:var(--muted);font-weight:600}
   .ptable-wrap{overflow-x:auto}
-  .ptable{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+  .ptable{width:100%;border-collapse:collapse;font-size:14px}
   .ptable th,.ptable td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line)}
   .ptable th{background:var(--purple-soft);color:var(--purple-deep);font-weight:800;font-size:12.5px}
   .ptable tbody tr:hover{background:#faf9ff}
-  .ptable th:first-child,.ptable td:first-child,.ptable th:nth-child(2),.ptable td:nth-child(2){text-align:start}
-  .ptable .tot td{font-weight:900;color:var(--purple-deep);background:#faf9ff;border-bottom:0}
-  .ptable tr.sub td{font-weight:800;color:var(--purple-deep);background:rgba(250,204,21,.14)}
+  .ptable th:first-child,.ptable td:first-child{text-align:start}
+  .ptable td:first-child{font-weight:700;color:var(--purple-deep)}
+  .ptable td:not(:first-child){font-weight:800;color:var(--purple-deep)}
+  @media (max-width:520px){ .ptable{font-size:13px} .ptable th,.ptable td{padding:9px 8px} }
   .empty{margin:0;color:var(--muted);font-weight:600;font-size:14px}
 
   /* upcoming-game extra line */
@@ -346,16 +347,26 @@ function playerLine(m, scope){
     </div>`;
 }
 
+function aggStats(list){
+  const apps = list.length;
+  const starts = list.filter(x=>x.started).length;
+  const min = list.reduce((a,x)=>a+(x.min||0),0);
+  const goals = list.reduce((a,x)=>a+(x.goals||0),0);
+  const assists = list.reduce((a,x)=>a+(x.assists||0),0);
+  return {
+    apps,
+    starts,
+    subs: apps - starts,
+    min,
+    goals,
+    assists,
+    avg: apps ? Math.round(min / apps) : 0,
+    pct: (apps ? Math.round((starts / apps) * 100) : 0) + "%"
+  };
+}
+
 function seasonMarkup(){
   const g = (PLAYER.games||[]);
-  const apps = g.length;
-  const starts = g.filter(x=>x.started).length;
-  const subs = apps - starts;
-  const min = g.reduce((a,x)=>a+(x.min||0),0);
-  const goals = g.reduce((a,x)=>a+(x.goals||0),0);
-  const assists = g.reduce((a,x)=>a+(x.assists||0),0);
-  const avg = apps ? Math.round(min / apps) : 0;
-  const startPct = apps ? Math.round((starts / apps) * 100) : 0;
   const head = `<div class="player-head">
       <div class="player-badge">#${PLAYER.number}</div>
       <div>
@@ -363,22 +374,25 @@ function seasonMarkup(){
         <div class="sub">${PLAYER.position ? PLAYER.position + " · " : ""}סטטיסטיקות עונת 2026/2027</div>
       </div>
     </div>`;
-  if(apps===0){
-    return head + `<p class="empty">אין עדיין נתוני משחק לשחקן. הנתונים יוצגו לאחר שיוזנו דקות משחק, שערים ובישולים לכל מחזור.</p>`;
+  if(g.length===0){
+    return head + `<p class="empty">אין עדיין נתוני משחק לשחקן. הנתונים יוצגו לאחר שיוזנו דקות משחק, שערים ובישולים.</p>`;
   }
-  const rows = g.map(s=>{
-    const scope = s.comp||"league";
-    const src = scope==="cup" ? CUP : FIXTURES;
-    const fx = src.find(m=>m.r===s.r)||{};
-    const comp = scope==="cup" ? "גביע" : "ליגה";
-    return `<tr><td>${s.r}</td><td>${comp}</td><td>${fx.opp||""}</td><td>${s.started?"בהרכב":"מחליף"}</td><td>${s.min||0}</td><td>${s.goals||0}</td><td>${s.assists||0}</td></tr>`;
-  }).join("");
+  const league = aggStats(g.filter(x=>(x.comp||"league")==="league"));
+  const cup = aggStats(g.filter(x=>(x.comp||"league")==="cup"));
+  const rows = [
+    ["משחקים", league.apps, cup.apps],
+    ["פתח בהרכב", league.starts, cup.starts],
+    ["נכנס כמחליף", league.subs, cup.subs],
+    ["דקות משחק", league.min, cup.min],
+    ["ממוצע דקות למשחק", league.avg, cup.avg],
+    ["שערים", league.goals, cup.goals],
+    ["בישולים", league.assists, cup.assists],
+    ["אחוז פתיחה בהרכב", league.pct, cup.pct]
+  ];
+  const body = rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
   return head + `<div class="ptable-wrap"><table class="ptable">
-      <thead><tr><th>מחזור</th><th>מסגרת</th><th>יריבה</th><th>מעמד</th><th>דקות</th><th>שערים</th><th>בישולים</th></tr></thead>
-      <tbody>${rows}
-        <tr class="tot"><td>סה״כ</td><td></td><td>${apps} משחקים</td><td>${starts} בהרכב · ${subs} מחליף</td><td>${min}</td><td>${goals}</td><td>${assists}</td></tr>
-        <tr class="sub"><td colspan="2">ממוצע דקות למשחק</td><td>${avg}</td><td colspan="2">אחוז פתיחה בהרכב</td><td colspan="2">${startPct}%</td></tr>
-      </tbody>
+      <thead><tr><th>מדד</th><th>ליגה</th><th>גביע</th></tr></thead>
+      <tbody>${body}</tbody>
     </table></div>`;
 }
 
